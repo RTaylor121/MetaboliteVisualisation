@@ -13,7 +13,9 @@ public class Model {
 	static ArrayList<Link[]> linkingData;
 	boolean pathLoaded, idsLoaded;
 	
-	int[] peakRows, idRows;
+	int[] selectedPeaks, selectedIds, linkedPeaks, linkedIds;
+	
+	ArrayList<Integer> linkIdRows;
 	
 	public Model(){
 		idStore = new IdentificationStore();
@@ -60,6 +62,47 @@ public class Model {
 	public void setIdsLoaded(boolean idsLoaded) {
 		this.idsLoaded = idsLoaded;
 	}
+
+	public int[] getSelectedPeaks() {
+		return selectedPeaks;
+	}
+
+	public void setSelectedPeaks(int[] selectedPeaks) {
+		this.selectedPeaks = selectedPeaks;
+	}
+
+	public int[] getSelectedIds() {
+		return selectedIds;
+	}
+
+	public void setSelectedIds(int[] selectedIds) {
+		this.selectedIds = selectedIds;
+	}
+
+	public int[] getLinkedPeaks() {
+		return linkedPeaks;
+	}
+
+	public void setLinkedPeaks(int[] linkedPeaks) {
+		this.linkedPeaks = linkedPeaks;
+	}
+
+	public int[] getLinkedIds() {
+		return linkedIds;
+	}
+
+	public void setLinkedIds(int[] linkedIds) {
+		this.linkedIds = linkedIds;
+	}
+
+	public ArrayList<Integer> getLinkIdRows() {
+		return linkIdRows;
+	}
+
+	public void setLinkIdRows(ArrayList<Integer> linkIdRows) {
+		this.linkIdRows = linkIdRows;
+	}
+	
 	
 	
 }

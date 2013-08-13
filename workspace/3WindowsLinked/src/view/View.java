@@ -12,12 +12,13 @@ public class View {
 	
 	model.Model model;
 	
-	private LinkingFrame linkFrame;
+//	private LinkingFrame linkFrame;
+	private newLinkingFrame linkFrame;
 	private PeakFrame peakFrame;
 	private PathwayFrame pathFrame;
 	
 	public View(Model theModel) {
-		setLinkFrame(new LinkingFrame());
+		setLinkFrame(new newLinkingFrame());
 		setPeakFrame(new PeakFrame());
 		setPathFrame(new PathwayFrame());
 		getLinkFrame().setVisible(true);
@@ -31,13 +32,12 @@ public class View {
 		getLinkFrame().getJMenuBar().getMenu(0).getItem(1).addActionListener(identificationLoadListener);
 	}
 	
-//	public void addDisplayPeakPlotsListener(ActionListener peakPlotsDisplayListener){
-//		getLinkFrame().updatePlotsButton.addActionListener(peakPlotsDisplayListener);
-//	}
+	public void addDisplayPeakPlotsListener(ActionListener peakPlotsDisplayListener){
+		getLinkFrame().updatePlotsButton.addActionListener(peakPlotsDisplayListener);
+	}
 	
 	public void addDisplayLinksListener(ActionListener linksDisplayListener){
-//		getLinkFrame().displayLinksButton.addActionListener(linksDisplayListener);
-		getLinkFrame().updatePlotsButton.addActionListener(linksDisplayListener);
+		getLinkFrame().displayLinksButton.addActionListener(linksDisplayListener);
 	}
 	
 	public void addLoadPathListener(ActionListener pathLoadListener){
@@ -48,13 +48,21 @@ public class View {
 		getLinkFrame().updatePeakTable(peakset);
 	}
 	
-	public LinkingFrame getLinkFrame() {
+	public newLinkingFrame getLinkFrame() {
 		return linkFrame;
 	}
 
-	public void setLinkFrame(LinkingFrame linkFrame) {
+	public void setLinkFrame(newLinkingFrame linkFrame) {
 		this.linkFrame = linkFrame;
 	}
+	
+//	public LinkingFrame getLinkFrame() {
+//		return linkFrame;
+//	}
+//
+//	public void setLinkFrame(LinkingFrame linkFrame) {
+//		this.linkFrame = linkFrame;
+//	}
 	
 	public PeakFrame getPeakFrame() {
 		return peakFrame;

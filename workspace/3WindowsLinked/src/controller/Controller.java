@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-//import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.imageio.ImageIO;
@@ -18,6 +18,8 @@ import javax.swing.JFileChooser;
 //import javax.swing.JLayeredPane;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+
+import model.properIdent;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.helpers.DefaultHandler;
@@ -36,7 +38,7 @@ public class Controller {
         this.theView  = view;
         
         theView.addLoadPeaksListener(new LoadPeaksListener());
-//        theView.addDisplayPeakPlotsListener(new DisplayPeakPlotsListener());
+        theView.addDisplayPeakPlotsListener(new DisplayPeakPlotsListener());
         theView.addLoadIdentificationsListener(new LoadIdentificationsListener());
         theView.addLoadPathListener(new LoadPathListener());
         theView.addDisplayLinksListener(new DisplayLinksListener());
@@ -121,25 +123,33 @@ public class Controller {
     	public void actionPerformed(ActionEvent e) {
     		int count;
     		boolean found;
+    		theView.getLinkFrame().setLinkIdRows(new ArrayList<Integer>());
     		int[] sel = theView.getLinkFrame().getPeakTable().getSelectedRows();
 //    		Vector<IPeak> selected = theModel.getPeakStore().getSelectedPeaks(
 //    				theView.getLinkFrame().getPeakTable().getSelectedRows());
     		for (int i = 0; i < sel.length; i++){
     			IPeak currentPeak = theModel.getPeakStore().getPeakset().get(sel[i]);
     			count = 0;
+    			int idCount = 0;
     			found = false;
     			///////////////////////////////////////////////////////////////////////////////////////			
     			while (count < theModel.getPeakStore().getLinkingData().size()){
     				for (model.Link link : theModel.getPeakStore().getLinkingData().get(count)){
     					if (link.getPeakIndex() == sel[i]){
-    						for (JButton button : theView.getPathFrame().getPathButtons()){
-    							if (button.getName().equalsIgnoreCase(link.getKeggID())){
-//    								currentPathEntries.add(regButtons.indexOf(button));
-//    								currentPathEntryColours.add(button.getBackground());
-    								button.setBackground(Color.YELLOW);
-    								System.out.println("Link found for: " + link.getKeggID());
+    						for (properIdent id: theModel.getIdStore().getIdentifications()){
+    							if (id.getKegg().equals(link.getKeggID())){
+    								theView.getLinkFrame().getLinkIdRows().add(idCount);
     							}
+    							idCount++;
     						}
+//    						for (JButton button : theView.getPathFrame().getPathButtons()){
+//    							if (button.getName().equalsIgnoreCase(link.getKeggID())){
+////    								currentPathEntries.add(regButtons.indexOf(button));
+////    								currentPathEntryColours.add(button.getBackground());
+//    								button.setBackground(Color.YELLOW);
+//    								System.out.println("Link found for: " + link.getKeggID());
+//    							}
+//    						}
     						found = true;
     					}
     				}
