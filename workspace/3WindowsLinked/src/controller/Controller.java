@@ -36,7 +36,7 @@ public class Controller {
         this.theView  = view;
         
         theView.addLoadPeaksListener(new LoadPeaksListener());
-        theView.addDisplayPeakPlotsListener(new DisplayPeakPlotsListener());
+//        theView.addDisplayPeakPlotsListener(new DisplayPeakPlotsListener());
         theView.addLoadIdentificationsListener(new LoadIdentificationsListener());
         theView.addLoadPathListener(new LoadPathListener());
         theView.addDisplayLinksListener(new DisplayLinksListener());

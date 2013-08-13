@@ -31,12 +31,13 @@ public class View {
 		getLinkFrame().getJMenuBar().getMenu(0).getItem(1).addActionListener(identificationLoadListener);
 	}
 	
-	public void addDisplayPeakPlotsListener(ActionListener peakPlotsDisplayListener){
-		getLinkFrame().updatePlotsButton.addActionListener(peakPlotsDisplayListener);
-	}
+//	public void addDisplayPeakPlotsListener(ActionListener peakPlotsDisplayListener){
+//		getLinkFrame().updatePlotsButton.addActionListener(peakPlotsDisplayListener);
+//	}
 	
 	public void addDisplayLinksListener(ActionListener linksDisplayListener){
-		getLinkFrame().displayLinksButton.addActionListener(linksDisplayListener);
+//		getLinkFrame().displayLinksButton.addActionListener(linksDisplayListener);
+		getLinkFrame().updatePlotsButton.addActionListener(linksDisplayListener);
 	}
 	
 	public void addLoadPathListener(ActionListener pathLoadListener){
