@@ -1,0 +1,18 @@
+package model;
+
+import java.io.File;
+
+import viewController.PathwayFrame;
+import viewController.PeakFrame;
+
+public class DataLinking {
+
+	static IdentificationStore pathStore;
+	PathwayFrame pathFrame;
+	
+	static PeakStore peakStore;
+	PeakFrame peakFrame;
+	
+	public static void main(String args[]){
+	}
+}

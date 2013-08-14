@@ -1,0 +1,36 @@
+package view;
+
+import java.awt.event.ActionListener;
+import java.io.File;
+
+import model.Model;
+
+import peakml.IPeak;
+import peakml.IPeakSet;
+
+public class View {
+	
+	model.Model model;
+	
+	LinkingFrame linkFrame;
+	
+	File inputFile;
+
+	public View(Model theModel) {
+		// init frames
+		linkFrame = new LinkingFrame();
+		linkFrame.setVisible(true);
+	}
+
+	public void addLoadPeaksListener(ActionListener peakLoadListener){
+		linkFrame.getJMenuBar().getMenu(0).getItem(0).addActionListener(peakLoadListener);
+	}
+	
+	public void displayPeaks(IPeakSet<IPeak> peakset){
+		linkFrame.updatePeakTable(peakset);
+	}
+//	void addMultiplyListener(ActionListener mal) {
+//        m_multiplyBtn.addActionListener(mal);
+//    }
+
+}

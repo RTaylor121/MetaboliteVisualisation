@@ -1,0 +1,18 @@
+package view;
+
+import java.awt.event.ActionListener;
+
+public class View {
+	
+	model.Model model;
+	
+	LinkingFrame linkFrame;
+
+	public void addLoadPeaksListener(ActionListener peakLoadListener){
+		linkFrame.getMenuBar().getMenu(0).getItem(0).addActionListener(peakLoadListener);
+	}
+//	void addMultiplyListener(ActionListener mal) {
+//        m_multiplyBtn.addActionListener(mal);
+//    }
+
+}

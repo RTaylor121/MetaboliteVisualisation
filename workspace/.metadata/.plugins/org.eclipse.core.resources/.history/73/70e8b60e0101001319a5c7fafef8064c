@@ -1,0 +1,27 @@
+package model;
+
+import java.io.File;
+
+import peakml.IPeak;
+import peakml.IPeakSet;
+
+public class Model {
+		
+	static IdentificationStore idStore;
+	static PeakStore peakStore;
+
+	int[] peakRows, idRows;
+	
+	public Model(){
+		idStore = new IdentificationStore();
+		peakStore = new PeakStore();
+	}
+	
+	public void loadIdentifications(File file){
+		idStore.parseInputFile(file);
+	}
+	
+	public IPeakSet<IPeak> loadPeaks(File file){
+		return peakStore.parseInputFile(file);
+	}
+}

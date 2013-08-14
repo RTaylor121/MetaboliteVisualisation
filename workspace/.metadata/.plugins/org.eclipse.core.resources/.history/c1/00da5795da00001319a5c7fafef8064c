@@ -1,0 +1,39 @@
+package model;
+
+import java.io.File;
+
+import viewController.LinkingFrame;
+import viewController.PathwayFrame;
+import viewController.PeakFrame;
+
+public class DataLinking {
+	
+	static LinkingFrame linkFrame;
+
+	static IdentificationStore pathStore;
+	static PathwayFrame pathFrame;
+	
+	static PeakStore peakStore;
+	static PeakFrame peakFrame;
+	
+	public static void loadIdentifications(File file){
+		pathStore = new IdentificationStore();
+		pathStore.parseInputFile(file);
+	}
+	
+	public static void loadPeaks(File file){
+		peakStore = new PeakStore();
+		peakStore.parseInputFile(file);
+	}
+	
+	public static void main(String args[]){
+	    java.awt.EventQueue.invokeLater(new Runnable() {
+	        public void run() {
+	            linkFrame = new LinkingFrame();
+	            linkFrame.setVisible(true);
+	            pathFrame = new PathwayFrame();
+	            peakFrame = new PeakFrame();
+	        }
+	    });
+	}
+}

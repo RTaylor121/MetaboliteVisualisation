@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy 1 elements(s) to &apos;linkedDisplays/src/(default package)&apos;&#x0A;- Original project: &apos;peakMLTest&apos;&#x0A;- Destination element: &apos;linkedDisplays/src/(default package)&apos;&#x0A;- Original element: &apos;PeakPrototypeFrame.java&apos;" description="Copy compilation unit" destination="=linkedDisplays/src&lt;" element1="/src&lt;{PeakPrototypeFrame.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1375353670771" units="1" version="1.0"/>
+</session>

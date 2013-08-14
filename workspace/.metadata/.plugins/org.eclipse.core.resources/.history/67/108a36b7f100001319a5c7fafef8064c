@@ -1,0 +1,19 @@
+package model;
+
+import java.io.File;
+
+public class Model {
+		
+	static IdentificationStore pathStore;
+	static PeakStore peakStore;
+
+	int[] peakRows, idRows;
+	
+	public void loadIdentifications(File file){
+		pathStore.parseInputFile(file);
+	}
+	
+	public void loadPeaks(File file){
+		peakStore.parseInputFile(file);
+	}
+}

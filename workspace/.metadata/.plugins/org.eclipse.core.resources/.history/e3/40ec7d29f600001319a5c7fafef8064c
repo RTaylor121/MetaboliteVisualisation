@@ -1,0 +1,56 @@
+package controller;
+
+import java.awt.Component;
+import java.awt.event.*;
+import java.io.File;
+
+import javax.swing.JFileChooser;
+
+public class Controller {
+    
+	private model.Model theModel;
+    private view.View  theView;
+    
+    Controller(model.Model model, view.View view) {
+        this.theModel = model;
+        this.theView  = view;
+        
+        view.addLoadPeaksListener(new LoadPeaksListener());
+//        view.addMultiplyListener(new MultiplyListener());
+////        view.addClearListener(new ClearListener());
+    }
+//    
+    class LoadPeaksListener implements ActionListener {
+    	public void actionPerformed(ActionEvent e) {
+    		final JFileChooser fc = new JFileChooser();
+    		int returnVal = fc.showOpenDialog((Component) e.getSource());
+    		if (returnVal == JFileChooser.APPROVE_OPTION) {
+                File file = fc.getSelectedFile();
+//                theModel.loadPeaks(file);
+                theView.displayPeaks(theModel.loadPeaks(file));
+    		}
+    	}
+    }
+//    class MultiplyListener implements ActionListener {
+//        public void actionPerformed(ActionEvent e) {
+//            String userInput = "";
+//            try {
+//                userInput = m_view.getUserInput();
+//                m_model.multiplyBy(userInput);
+//                m_view.setTotal(m_model.getValue());
+//                
+//            } catch (NumberFormatException nfex) {
+//                m_view.showError("Bad input: '" + userInput + "'");
+//            }
+//        }
+//    }
+    
+    
+    
+//    class ClearListener implements ActionListener {
+//        public void actionPerformed(ActionEvent e) {
+//            m_model.reset();
+//            m_view.reset();
+//        }
+//    }
+}

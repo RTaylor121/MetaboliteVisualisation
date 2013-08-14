@@ -1,0 +1,26 @@
+package model;
+
+import viewController.LinkingFrame;
+import viewController.PathwayFrame;
+import viewController.PeakFrame;
+
+public class DataLinking {
+	
+	static LinkingFrame linkFrame;
+
+	static IdentificationStore pathStore;
+	PathwayFrame pathFrame;
+	
+	static PeakStore peakStore;
+	PeakFrame peakFrame;
+	
+	public static void main(String args[]){
+	    java.awt.EventQueue.invokeLater(new Runnable() {
+	        public void run() {
+	            linkFrame = new LinkingFrame();
+	            linkFrame.setVisible(true);
+	            
+	        }
+	    });
+	}
+}

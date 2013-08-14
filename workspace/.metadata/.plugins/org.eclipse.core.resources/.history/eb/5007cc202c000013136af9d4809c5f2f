@@ -1,0 +1,12 @@
+package viewController;
+
+import javax.swing.JFrame;
+
+public class PathwayFrame extends JFrame{
+
+	
+	public PathwayFrame() {
+        initComponents();
+    }
+	
+}
