@@ -13,7 +13,9 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.imageio.ImageIO;
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
+//import javax.swing.JLayeredPane;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
@@ -123,7 +125,7 @@ public class Controller {
     class DisplayLinksListener implements ActionListener {
     	public void actionPerformed(ActionEvent e) {
     		int count;
-//    		boolean found;
+    		boolean found;
     		theView.getLinkFrame().setLinkIdRows(new ArrayList<Integer>());
     		int[] sel = theView.getLinkFrame().getPeakTable().getSelectedRows();
     		theView.getLinkFrame().setCurrentLinkPeaks(sel);
@@ -133,12 +135,11 @@ public class Controller {
     			IPeak currentPeak = theModel.getPeakStore().getPeakset().get(sel[i]);
     			count = 0;
     			int idCount = 0;
-//    			found = false;
+    			found = false;
     			///////////////////////////////////////////////////////////////////////////////////////			
     			while (count < theModel.getPeakStore().getLinkingData().size()){
     				for (model.Link link : theModel.getPeakStore().getLinkingData().get(count)){
     					if (link.getPeakIndex() == sel[i]){
-    						idCount = 0;
     						for (properIdent id: theModel.getIdStore().getIdentifications()){
     							if (id.getKegg().equals(link.getKeggID())){
     								theView.getLinkFrame().getLinkIdRows().add(idCount);
@@ -153,7 +154,7 @@ public class Controller {
 //    								System.out.println("Link found for: " + link.getKeggID());
 //    							}
 //    						}
-//    						found = true;
+    						found = true;
     					}
     				}
     				count++;

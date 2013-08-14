@@ -2,6 +2,7 @@ package main;
 
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 public class Main {
 
@@ -30,6 +31,8 @@ public class Main {
 	       // handle exception
 	    }
 
+
+		
 		theModel = new model.Model();
 		theView = new view.View(theModel);
 		theController = new controller.Controller(theModel, theView);
