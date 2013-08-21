@@ -1,3 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">&#x0A;<refactoring comment="Delete resource &apos;jzy3d&apos;" deleteContents="true" description="Delete resource &apos;jzy3d&apos;" element1="/jzy3d" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1372073869045"/>&#x0A;<refactoring comment="Delete resource &apos;org.jzy3d-0.9-tutorials&apos;" deleteContents="false" description="Delete resource &apos;org.jzy3d-0.9-tutorials&apos;" element1="/org.jzy3d-0.9-tutorials" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1372074138257"/>
-</session>

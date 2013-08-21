@@ -1,9 +1,0 @@
-INDEX VERSION 1.126+/users/level3/1002858t/MetaboliteVisualisation/workspace/.metadata/.plugins/org.eclipse.jdt.core
-3965818749.index
-1754190004.index
-2973509902.index
-688485673.index
-346110613.index
-4176408729.index
-3570699242.index
-262155308.index

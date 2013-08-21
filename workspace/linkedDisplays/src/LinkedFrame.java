@@ -139,7 +139,6 @@ public class LinkedFrame extends JFrame{
         };
         
         tableSelectionModel = infoTable.getSelectionModel();
-//        tableSelectionModel.addListSelectionListener(new SharedListSelectionHandler());
         infoTable.setSelectionModel(tableSelectionModel);
         
         tableScroll.setViewportView(infoTable);
