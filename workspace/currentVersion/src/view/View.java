@@ -14,12 +14,14 @@ public class View {
 	model.Model model;
 	
 //	private LinkingFrame linkFrame;
-	private newLinkingFrame linkFrame;
+//	private newLinkingFrame linkFrame;
+	private wideTables linkFrame;
 	private PeakFrame peakFrame;
 	private PathwayFrame pathFrame;
 	
 	public View(Model theModel) {
-		setLinkFrame(new newLinkingFrame());
+		setLinkFrame(new wideTables());
+//		setLinkFrame(new newLinkingFrame());
 		setPeakFrame(new PeakFrame());
 		setPathFrame(new PathwayFrame());
 		getLinkFrame().setVisible(true);
@@ -34,11 +36,15 @@ public class View {
 	}
 	
 	public void addDisplayPeakPlotsListener(ActionListener peakPlotsDisplayListener){
-		getLinkFrame().updatePlotsButton.addActionListener(peakPlotsDisplayListener);
+		getLinkFrame().getUpdatePlotsButton().addActionListener(peakPlotsDisplayListener);
 	}
 	
-	public void addDisplayLinksListener(ActionListener linksDisplayListener){
-		getLinkFrame().displayLinksButton.addActionListener(linksDisplayListener);
+	public void addDisplayIdLinksListener(ActionListener idLinksDisplayListener){
+		getLinkFrame().getDisplayIdLinksButton().addActionListener(idLinksDisplayListener);
+	}
+	
+	public void addDisplayPeakLinksListener(ActionListener peakLinksDisplayListener){
+		getLinkFrame().getPeakLinksButton().addActionListener(peakLinksDisplayListener);
 	}
 	
 	public void addLoadPathListener(ActionListener pathLoadListener){
@@ -50,21 +56,29 @@ public class View {
 //	}
 	
 	public void displayPeakList(IPeakSet<IPeak> peakset){
-		getLinkFrame().updatePeakTable(peakset);
+		getLinkFrame().updatePeakMainTable(peakset);
 	}
 	
-	public newLinkingFrame getLinkFrame() {
+//	public newLinkingFrame getLinkFrame() {
+//		return linkFrame;
+//	}
+//
+//	public void setLinkFrame(newLinkingFrame linkFrame) {
+//		this.linkFrame = linkFrame;
+//	}
+	
+	public void addUpdatePathIDsListener(ActionListener updatePathListener){
+		getLinkFrame().getUpdatePathButton().addActionListener(updatePathListener);
+	}
+	
+	public wideTables getLinkFrame() {
 		return linkFrame;
 	}
 
-	public void setLinkFrame(newLinkingFrame linkFrame) {
+	public void setLinkFrame(wideTables linkFrame) {
 		this.linkFrame = linkFrame;
 	}
-	
-	public void addUpdatePathIDsListener(ActionListener updatePathListener){
-		getLinkFrame().updatePathButton.addActionListener(updatePathListener);
-	}
-	
+
 	public PeakFrame getPeakFrame() {
 		return peakFrame;
 	}

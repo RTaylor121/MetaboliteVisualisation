@@ -42,7 +42,8 @@ public class Controller {
         theView.addDisplayPeakPlotsListener(new DisplayPeakPlotsListener());
         theView.addLoadIdentificationsListener(new LoadIdentificationsListener());
         theView.addLoadPathListener(new LoadPathListener());
-        theView.addDisplayLinksListener(new DisplayLinksListener());
+        theView.addDisplayIdLinksListener(new DisplayIdLinksListener());
+        theView.addDisplayPeakLinksListener(new DisplayPeakLinksListener());
         theView.addUpdatePathIDsListener(new UpdatePathIDsListener());
     }
 
@@ -62,7 +63,7 @@ public class Controller {
     class DisplayPeakPlotsListener implements ActionListener {
     	public void actionPerformed(ActionEvent e) {
     		theView.getPeakFrame().clearPlots();
-    		int[] selected = theView.getLinkFrame().getPeakTable().getSelectedRows();
+    		int[] selected = theView.getLinkFrame().getPeakMainTable().getSelectedRows();
     		theView.getLinkFrame().setCurrentPlotPeaks(selected);
     		Vector<IPeak> selectedPeaks = theModel.getPeakStore().getSelectedPeaks(selected);
     		double[] barPlotX = new double[1];
@@ -105,7 +106,7 @@ public class Controller {
                 theView.getPathFrame().pack();
     		}
     		theModel.setIdsLoaded(true);
-    		theView.getLinkFrame().newupdateIdTable(theModel.getIdStore().getNewIds());
+    		theView.getLinkFrame().updateIdMainTable(theModel.getIdStore().getNewIds());
     	}
     }
     
@@ -144,14 +145,12 @@ public class Controller {
     	}
     }
     
-    class DisplayLinksListener implements ActionListener {
+    class DisplayPeakLinksListener implements ActionListener {
     	public void actionPerformed(ActionEvent e) {
-    		
-//    		///////////////////////////////////////////////////////////
     		int count, idCount;
     		theView.getLinkFrame().setLinkIdRows(new ArrayList<Integer>());
     		theModel.getIdStore().setLinkIdRows(new ArrayList<Integer>());
-    		int[] sel = theView.getLinkFrame().getPeakTable().getSelectedRows();
+    		int[] sel = theView.getLinkFrame().getPeakMainTable().getSelectedRows();
     		theView.getLinkFrame().setCurrentLinkPeaks(sel);
     		for (int i = 0; i < sel.length; i++){
     			count = 0;
@@ -170,10 +169,14 @@ public class Controller {
 	    			}
     			}
     		}
-    			
-    		////////////////////////////////////////////////////////
+    	}
+    }
+    	
+	 class DisplayIdLinksListener implements ActionListener {
+	    	public void actionPerformed(ActionEvent e) {
+    		int count;
     		theView.getLinkFrame().setLinkPeakRows(new ArrayList<Integer>());
-    		sel = theView.getLinkFrame().getIdTable().getSelectedRows();
+    		int[] sel = theView.getLinkFrame().getIdMainTable().getSelectedRows();
     		theView.getLinkFrame().setCurrentLinkIdentifications(sel);
     		theModel.getIdStore().setCurrentLinkIdentifications(sel);
     		for (int i = 0; i < sel.length; i++){
@@ -189,21 +192,20 @@ public class Controller {
     				count++;
     			}
     		}
-    		//////////////////////////////////////////////////////////
-    		for (int i : theModel.getIdStore().getLinkIdRows()){
-    			System.out.println(theModel.getIdStore().getNewIds().get(i));
-    		}
-    		System.out.println("/////////////////////////////");
-    		for (int i : theModel.getIdStore().getCurrentLinkIdentifications()){
-    			System.out.println(theModel.getIdStore().getNewIds().get(i));
-    		}
+//    		for (int i : theModel.getIdStore().getLinkIdRows()){
+//    			System.out.println(theModel.getIdStore().getNewIds().get(i));
+//    		}
+//    		System.out.println("/////////////////////////////");
+//    		for (int i : theModel.getIdStore().getCurrentLinkIdentifications()){
+//    			System.out.println(theModel.getIdStore().getNewIds().get(i));
+//    		}
     	}
     }
     
     class UpdatePathIDsListener implements ActionListener {
     	public void actionPerformed(ActionEvent e) {
     		
-    		int[] sel = theView.getLinkFrame().getIdTable().getSelectedRows();
+    		int[] sel = theView.getLinkFrame().getIdMainTable().getSelectedRows();
     		theView.getLinkFrame().setCurrentPathIdentifications(sel);
     		
     		if (!theView.getLinkFrame().getHighlightedPathButtons().isEmpty()){
