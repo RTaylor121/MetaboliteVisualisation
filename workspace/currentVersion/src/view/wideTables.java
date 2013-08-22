@@ -38,8 +38,8 @@ public class wideTables extends javax.swing.JFrame {
 	private ArrayList<Integer> highlightedPathButtons;
 	private ArrayList<Color> highlightedButtonColours;
 	
-	private String idSortString;
-	private int idSortOrder;
+	private String idSortString, peakSortString;
+	private int idSortOrder, peakSortOrder;
 	
 	int linkPeaksSplit, linkIdsSplit;
 
@@ -60,8 +60,8 @@ public class wideTables extends javax.swing.JFrame {
         idPathTable = new javax.swing.JTable();
         idSortButton = new javax.swing.JButton();
         idClearButton = new javax.swing.JButton();
-//        idSortSpinner = new javax.swing.JSpinner();
         idComboBox = new javax.swing.JComboBox();
+        peakComboBox = new javax.swing.JComboBox();
         updatePathButton = new javax.swing.JButton();
         displayIdLinksButton = new javax.swing.JButton();
         peakPanel = new javax.swing.JPanel();
@@ -74,7 +74,7 @@ public class wideTables extends javax.swing.JFrame {
         peakPlotTable = new javax.swing.JTable();
         peakSortButton = new javax.swing.JButton();
         peakClearButton = new javax.swing.JButton();
-        peakSortSpinner = new javax.swing.JSpinner();
+//        peakSortSpinner = new javax.swing.JSpinner();
         updatePlotsButton = new javax.swing.JButton();
         peakLinksButton = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
@@ -95,7 +95,9 @@ public class wideTables extends javax.swing.JFrame {
     	linkPeaksSplit = 0;
     	linkIdsSplit = 0;
     	idSortString = "id";
+    	peakSortString = "mass";
     	idSortOrder = 0;
+    	peakSortOrder = 0;
     	
         idPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Identifications"));
 
@@ -185,11 +187,10 @@ public class wideTables extends javax.swing.JFrame {
 
             public void itemStateChanged(ItemEvent e) {
                 String s = (String)e.getItem();
-//                System.out.println(s);
                 idSortString = s;
             }
         });
-
+        
         idSortButton.setText("Sort By");
         idSortButton.setPreferredSize(new java.awt.Dimension(130, 29));
 
@@ -216,7 +217,6 @@ public class wideTables extends javax.swing.JFrame {
                     .add(idClearButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(idSortButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-//                .add(idSortSpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 96, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(idComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 96, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -233,7 +233,6 @@ public class wideTables extends javax.swing.JFrame {
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(idPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(idSortButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-//                            .add(idSortSpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                             .add(idComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(idClearButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -246,8 +245,7 @@ public class wideTables extends javax.swing.JFrame {
 
         peakTabbedPane.setPreferredSize(new java.awt.Dimension(700, 450));
         
-        peakColumnNames = new String [] {"No.",
-    			"Mass",
+        peakColumnNames = new String [] {"Mass",
                 "Intensity",
                 "Retention Time",
                 "Link"};
@@ -292,7 +290,7 @@ public class wideTables extends javax.swing.JFrame {
 
         peakTabbedPane.addTab("All", peakMainScroll);
 
-        peakLinksTM = new PeakTableModel(new Object [][] {}, idColumnNames);
+        peakLinksTM = new PeakTableModel(new Object [][] {}, peakColumnNames);
     	setPeakLinksTable(new JTable(peakLinksTM){
 			public Component prepareRenderer(TableCellRenderer renderer, int row, int column)
 			{
@@ -321,6 +319,15 @@ public class wideTables extends javax.swing.JFrame {
         peakPlotScroll.setViewportView(peakPlotTable);
 
         peakTabbedPane.addTab("On Plots", peakPlotScroll);
+        
+        JComboBox peakComboBox = new JComboBox(peakColumnNames);
+        peakComboBox.addItemListener(new ItemListener(){
+
+            public void itemStateChanged(ItemEvent e) {
+                String s = (String)e.getItem();
+                peakSortString = s;
+            }
+        });
 
         peakSortButton.setText("Sort By");
         peakSortButton.setPreferredSize(new java.awt.Dimension(130, 29));
@@ -350,7 +357,7 @@ public class wideTables extends javax.swing.JFrame {
                             .add(org.jdesktop.layout.GroupLayout.TRAILING, peakSortButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                             .add(org.jdesktop.layout.GroupLayout.TRAILING, peakClearButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(peakSortSpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 96, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                        .add(peakComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 96, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         peakPanelLayout.setVerticalGroup(
@@ -366,7 +373,7 @@ public class wideTables extends javax.swing.JFrame {
                 .add(updatePlotsButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(peakPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(peakSortSpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(peakComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(peakSortButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .add(0, 0, 0)
                 .add(peakClearButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -439,7 +446,6 @@ public class wideTables extends javax.swing.JFrame {
 		this.updatePlotsButton = updatePlotsButton;
 	}
 
-//	public void updatePeakTable(Vector<IPeak> peakset, int table ){
   		
 	public void updatePeakTable(ArrayList<IPeak> peakset, int table ){
   		IPeak current;
@@ -447,18 +453,17 @@ public class wideTables extends javax.swing.JFrame {
   		if (peakset.size() < 1)
   			tableData = new Object[0][0];
   		else {
-  			tableData = new Object[peakset.size()][5];
+  			tableData = new Object[peakset.size()][4];
 	  		for(int i = 0; i < peakset.size(); i++){
 	  			current = peakset.get(i);
-	  			tableData[i][0] = i + 1;
-	  			tableData[i][1] = current.getMass();
-	  			tableData[i][2] = current.getIntensity();
-	  			tableData[i][3] = current.getRetentionTime();
+	  			tableData[i][0] = current.getMass();
+	  			tableData[i][1] = current.getIntensity();
+	  			tableData[i][2] = current.getRetentionTime();
 	  			try{
-	  				tableData[i][4] = current.getAnnotation("probabilityIdentification").getValue();
+	  				tableData[i][3] = current.getAnnotation("probabilityIdentification").getValue();
 	  			}
 	  			catch(Exception e){
-	  				tableData[i][4] = "n/a";
+	  				tableData[i][3] = "n/a";
 	  			}
 	  		}
   		}
@@ -662,14 +667,6 @@ public class wideTables extends javax.swing.JFrame {
 		this.peakLinksButton = peakLinksButton;
 	}
 
-	public javax.swing.JComboBox getIdComboBox() {
-		return idComboBox;
-	}
-
-	public void setIdComboBox(javax.swing.JComboBox idComboBox) {
-		this.idComboBox = idComboBox;
-	}
-
 	public javax.swing.JButton getIdClearButton() {
 		return idClearButton;
 	}
@@ -686,21 +683,21 @@ public class wideTables extends javax.swing.JFrame {
 		this.idSortButton = idSortButton;
 	}
 
-	public javax.swing.JButton getPeakClearButton() {
-		return peakClearButton;
-	}
-
-	public void setPeakClearButton(javax.swing.JButton peakClearButton) {
-		this.peakClearButton = peakClearButton;
-	}
+//	public javax.swing.JButton getPeakClearButton() {
+//		return peakClearButton;
+//	}
+//
+//	public void setPeakClearButton(javax.swing.JButton peakClearButton) {
+//		this.peakClearButton = peakClearButton;
+//	}
 
 	public javax.swing.JButton getPeakSortButton() {
 		return peakSortButton;
 	}
 
-	public void setPeakSortButton(javax.swing.JButton peakSortButton) {
-		this.peakSortButton = peakSortButton;
-	}
+//	public void setPeakSortButton(javax.swing.JButton peakSortButton) {
+//		this.peakSortButton = peakSortButton;
+//	}
 	
 	public String getSortString() {
 		return idSortString;
@@ -725,6 +722,40 @@ public class wideTables extends javax.swing.JFrame {
 	public void setLinkIdsSplit(int linkIdsSplit) {
 		this.linkIdsSplit = linkIdsSplit;
 	}
+	
+	public String getIdSortString() {
+		return idSortString;
+	}
+
+	public void setIdSortString(String idSortString) {
+		this.idSortString = idSortString;
+	}
+
+	public String getPeakSortString() {
+		return peakSortString;
+	}
+
+	public void setPeakSortString(String peakSortString) {
+		this.peakSortString = peakSortString;
+	}
+
+	public int getIdSortOrder() {
+		return idSortOrder;
+	}
+
+	public void setIdSortOrder(int idSortOrder) {
+		this.idSortOrder = idSortOrder;
+	}
+
+	public int getPeakSortOrder() {
+		return peakSortOrder;
+	}
+
+	public void setPeakSortOrder(int peakSortOrder) {
+		this.peakSortOrder = peakSortOrder;
+	}
+
+
 
 	private javax.swing.JButton displayIdLinksButton;
 	private javax.swing.JButton idClearButton;
@@ -736,8 +767,8 @@ public class wideTables extends javax.swing.JFrame {
 	private javax.swing.JScrollPane idPathScroll;
 	private javax.swing.JTable idPathTable;
 	private javax.swing.JButton idSortButton;
-//	private javax.swing.JSpinner idSortSpinner;
 	private javax.swing.JComboBox idComboBox;
+	private javax.swing.JComboBox peakComboBox;
 	private javax.swing.JTabbedPane idTabbedPane;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuBar menuBar;
@@ -751,7 +782,6 @@ public class wideTables extends javax.swing.JFrame {
     private javax.swing.JScrollPane peakPlotScroll;
     private javax.swing.JTable peakPlotTable;
     private javax.swing.JButton peakSortButton;
-    private javax.swing.JSpinner peakSortSpinner;
     private javax.swing.JTabbedPane peakTabbedPane;
     private javax.swing.JButton updatePathButton;
     private javax.swing.JButton updatePlotsButton;

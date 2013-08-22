@@ -6,16 +6,12 @@ public class Link {
 	public String adduct;
 	public String isotope;
 	public double probability;
-	public int peakIndex;
-	public int idIndex;
 	
-	public Link(String keggID, String adduct, String isotope, double probability, int peakIndex ,int idIndex){
+	public Link(String keggID, String adduct, String isotope, double probability){
 		this.keggID = keggID;
 		this.adduct = adduct;
 		this.isotope = isotope;
 		this.probability = probability;
-		this.peakIndex = peakIndex;
-		this.idIndex = idIndex;
 	}
 	
 	public String getKeggID() {
@@ -42,27 +38,11 @@ public class Link {
 	public void setProbability(double probability) {
 		this.probability = probability;
 	}
-	public int getPeakIndex() {
-		return peakIndex;
-	}
-	public void setPeakIndex(int peakIndex) {
-		this.peakIndex = peakIndex;
-	}
-	
-	public int getIdIndex() {
-		return idIndex;
-	}
-
-	public void setIdIndex(int idIndex) {
-		this.idIndex = idIndex;
-	}
 
 	public String toString(){
 		if (this.adduct.equalsIgnoreCase("default"))
-			return "Probability Identification for peak " + peakIndex + ": " + 
-					keggID + ", default, " + probability;
+			return keggID + ", default, " + probability;
 		else
-			return "Probability Identification for peak " + peakIndex + ": " + 
-					keggID + ", " + adduct + ", " + isotope + ", " + probability;
+			return keggID + ", " + adduct + ", " + isotope + ", " + probability;
 	}
 }

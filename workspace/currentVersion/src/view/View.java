@@ -57,6 +57,10 @@ public class View {
 		getLinkFrame().getIdSortButton().addActionListener(idSortListener);
 	}
 	
+	public void addSortPeakListener(ActionListener peakSortListener){
+		getLinkFrame().getPeakSortButton().addActionListener(peakSortListener);
+	}
+	
 //	public void displayPeakList(IPeakSet<newPeak> peakset){
 //		getLinkFrame().updatePeakTable(peakset);
 //	}

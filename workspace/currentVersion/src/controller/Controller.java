@@ -46,6 +46,7 @@ public class Controller {
         theView.addDisplayPeakLinksListener(new DisplayPeakLinksListener());
         theView.addUpdatePathIDsListener(new UpdatePathIDsListener());
         theView.addSortIdListener(new sortIdListener());
+        theView.addSortPeakListener(new sortPeakListener());
     }
 
     class LoadPeaksListener implements ActionListener {
@@ -270,11 +271,21 @@ public class Controller {
     
     class sortIdListener implements ActionListener{
     	public void actionPerformed(ActionEvent e) {
-    		System.out.println(theView.getLinkFrame().getSortString());
     		theModel.getIdStore().sortInit(
-    				theView.getLinkFrame().getSortString(), 0);
+    				theView.getLinkFrame().getIdSortString(), 0);
     		theView.getLinkFrame().updateIdTable(
     				theModel.getIdStore().getNewIds(), 0);
+    	}
+    }
+    
+    class sortPeakListener implements ActionListener{
+    	public void actionPerformed(ActionEvent e) {
+    		theModel.getPeakStore().sortInit(
+    				theView.getLinkFrame().getPeakSortString(), 0);
+    		ArrayList<IPeak> alPeaks = new ArrayList<IPeak>();
+    		for (IPeak peak : theModel.getPeakStore().getPeakset())
+    			alPeaks.add(peak);
+    		theView.getLinkFrame().updatePeakTable(alPeaks, 0);
     	}
     }
     

@@ -79,18 +79,18 @@ public class PeakStore {
 			 for (int i = 0; i < annos.length; i++){
 				 splitLine = annos[i].split(",", 0);
 				 if (splitLine.length == 3){
-						newLinks[i] = new Link(splitLine[0], "default", null, Double.parseDouble(splitLine[2]), peakIndex, -1);
+						newLinks[i] = new Link(splitLine[0], "default", null, Double.parseDouble(splitLine[2]));
 					} else if (splitLine.length == 4) {
-						newLinks[i] = new Link(splitLine[0], splitLine[1], splitLine[2], Double.parseDouble(splitLine[3]), peakIndex, -1);
+						newLinks[i] = new Link(splitLine[0], splitLine[1], splitLine[2], Double.parseDouble(splitLine[3]));
 					}
 			 }
 		} else {
 			newLinks = new Link[1];
 			splitLine = anno.split(",", 0);
 			if (splitLine.length == 3){
-				newLinks[0] = new Link(splitLine[0], "default", null, Double.parseDouble(splitLine[2]), peakIndex, -1);
+				newLinks[0] = new Link(splitLine[0], "default", null, Double.parseDouble(splitLine[2]));
 			} else if (splitLine.length == 4) {
-				newLinks[0] = new Link(splitLine[0], splitLine[1], splitLine[2], Double.parseDouble(splitLine[3]), peakIndex, -1);
+				newLinks[0] = new Link(splitLine[0], splitLine[1], splitLine[2], Double.parseDouble(splitLine[3]));
 			}
 		}
 		linkingData.add(newLinks);
@@ -131,13 +131,13 @@ public class PeakStore {
 		IPeak temp = array.get(pivotIndex);
 		Link[] tempLink = linkingData.get(pivotIndex);
 		double pivotValue = 0;
-		if (field.equals("mass"))
+		if (field.equalsIgnoreCase("mass"))
 			pivotValue = array.get(pivotIndex).getMass();
-		else if (field.equals("intensity"))
+		else if (field.equalsIgnoreCase("intensity"))
 			pivotValue = array.get(pivotIndex).getIntensity();
-		else if (field.equals("retention"))
+		else if (field.equalsIgnoreCase("retention time"))
 			pivotValue = array.get(pivotIndex).getRetentionTime();
-		else if (field.equals("probability"))
+		else if (field.equalsIgnoreCase("link"))
 			if (linkingData.get(pivotIndex) != null)
 				pivotValue = linkingData.get(pivotIndex)[0].getProbability();
 			else
@@ -154,13 +154,13 @@ public class PeakStore {
 		double comparisonValue = 0;
 		
 		for (int i = left; i < right; i++){
-			if (field.equals("mass"))
+			if (field.equalsIgnoreCase("mass"))
 				comparisonValue = array.get(i).getMass();
-			else if (field.equals("intensity"))
+			else if (field.equalsIgnoreCase("intensity"))
 				comparisonValue = array.get(i).getIntensity();
-			else if (field.equals("retention"))
+			else if (field.equalsIgnoreCase("retention time"))
 				comparisonValue = array.get(i).getRetentionTime();
-			else if (field.equals("probability")){
+			else if (field.equalsIgnoreCase("link")){
 				if (linkingData.get(i) != null)
 					comparisonValue = linkingData.get(i)[0].getProbability();
 				else
