@@ -65,7 +65,9 @@ public class Controller {
     		theView.getPeakFrame().clearPlots();
     		int[] selected = theView.getLinkFrame().getPeakMainTable().getSelectedRows();
     		theView.getLinkFrame().setCurrentPlotPeaks(selected);
-    		Vector<IPeak> selectedPeaks = theModel.getPeakStore().getSelectedPeaks(selected);
+    		ArrayList<IPeak> selectedPeaks = new ArrayList<IPeak>();
+    		for (int i : selected)
+    			selectedPeaks.add(theModel.getPeakStore().getPeakset().get(i));
     		double[] barPlotX = new double[1];
     		double[] barPlotY = new double[1];
     		if (selectedPeaks.size() >= 1)
@@ -87,6 +89,7 @@ public class Controller {
 	    				System.out.println(npe);
 	    			}
 	    		}
+    		theView.getLinkFrame().updatePeakTable(selectedPeaks, 2);
     		theView.getPeakFrame().setVisible(true);
     		theView.getPeakFrame().pack();
     	}
@@ -106,7 +109,7 @@ public class Controller {
                 theView.getPathFrame().pack();
     		}
     		theModel.setIdsLoaded(true);
-    		theView.getLinkFrame().updateIdMainTable(theModel.getIdStore().getNewIds());
+    		theView.getLinkFrame().updateIdTable(theModel.getIdStore().getNewIds(), 0);
     	}
     }
     
@@ -147,28 +150,46 @@ public class Controller {
     
     class DisplayPeakLinksListener implements ActionListener {
     	public void actionPerformed(ActionEvent e) {
-    		int count, idCount;
+    		int count;
     		theView.getLinkFrame().setLinkIdRows(new ArrayList<Integer>());
     		theModel.getIdStore().setLinkIdRows(new ArrayList<Integer>());
     		int[] sel = theView.getLinkFrame().getPeakMainTable().getSelectedRows();
+    		ArrayList<IPeak> linkPeaks = new ArrayList<IPeak>();
+    		for (int i : sel)
+    			linkPeaks.add(theModel.getPeakStore().getPeakset().get(i));
+    		ArrayList<Ident> linkIds = new ArrayList<Ident>();
+    		for (int i = 0; i < theView.getLinkFrame().getLinkIdsSplit(); i++)
+    			linkIds.add(theModel.getLinkIds().get(i));
     		theView.getLinkFrame().setCurrentLinkPeaks(sel);
     		for (int i = 0; i < sel.length; i++){
     			count = 0;
-    			idCount = 0;
     			model.Link[] theLinks;
     			if ((theLinks = theModel.getPeakStore().getLinkingData().get(sel[i])) != null){
 	    			for (model.Link link : theLinks){
-	    				idCount = 0;
+	    				count = 0;
 	    				for (Ident id : theModel.getIdStore().getNewIds()){
 	    					if(link.getKeggID().equals(id.getKegg())){
-	    						theView.getLinkFrame().getLinkIdRows().add(idCount);
-	    						theModel.getIdStore().getLinkIdRows().add(idCount);
+	    						theView.getLinkFrame().getLinkIdRows().add(count);
+	    						linkIds.add(id);
+	    						theModel.getIdStore().getLinkIdRows().add(count);
 	    					}
-	    					idCount++;
+	    					count++;
 	    				}
 	    			}
     			}
     		}
+    		if (theModel.getLinkPeaks().size() > 0) {
+	    		for (int i = theView.getLinkFrame().getLinkPeaksSplit(); i < theModel.getLinkPeaks().size(); i++){
+	    			linkPeaks.add(theModel.getLinkPeaks().get(i));
+	    		}
+    		}
+    		theView.getLinkFrame().setLinkPeaksSplit(sel.length);
+    		theModel.setLinkPeaks(linkPeaks);
+    		theView.getLinkFrame().updatePeakTable(linkPeaks, 1);
+    		
+    		
+    		theModel.setLinkIds(linkIds);
+    		theView.getLinkFrame().updateIdTable(linkIds, 1);
     	}
     }
     	
@@ -177,6 +198,12 @@ public class Controller {
     		int count;
     		theView.getLinkFrame().setLinkPeakRows(new ArrayList<Integer>());
     		int[] sel = theView.getLinkFrame().getIdMainTable().getSelectedRows();
+    		ArrayList<Ident> linkIds = new ArrayList<Ident>();
+    		for (int i : sel)
+    			linkIds.add(theModel.getIdStore().getNewIds().get(i));
+    		ArrayList<IPeak> linkPeaks = new ArrayList<IPeak>();
+    		for (int i = 0; i < theView.getLinkFrame().getLinkPeaksSplit(); i++)
+    			linkPeaks.add(theModel.getLinkPeaks().get(i));
     		theView.getLinkFrame().setCurrentLinkIdentifications(sel);
     		theModel.getIdStore().setCurrentLinkIdentifications(sel);
     		for (int i = 0; i < sel.length; i++){
@@ -187,18 +214,23 @@ public class Controller {
 	    				for (model.Link link : theModel.getPeakStore().getLinkingData().get(count)){
 	    					if (link.getKeggID().equals(currentId.getKegg())){
 	    						theView.getLinkFrame().getLinkPeakRows().add(count);
+	    						linkPeaks.add(theModel.getPeakStore().getPeakset().get(count));
 	    					}
 	    				}
     				count++;
     			}
     		}
-//    		for (int i : theModel.getIdStore().getLinkIdRows()){
-//    			System.out.println(theModel.getIdStore().getNewIds().get(i));
-//    		}
-//    		System.out.println("/////////////////////////////");
-//    		for (int i : theModel.getIdStore().getCurrentLinkIdentifications()){
-//    			System.out.println(theModel.getIdStore().getNewIds().get(i));
-//    		}
+    		if (theModel.getLinkIds().size() > 0){
+	    		for (int i = theView.getLinkFrame().getLinkIdsSplit(); i < theModel.getLinkIds().size(); i++)
+	    			linkIds.add(theModel.getLinkIds().get(i));
+    		}
+    		theView.getLinkFrame().setLinkIdsSplit(sel.length);
+    		theModel.setLinkIds(linkIds);
+    		theView.getLinkFrame().updateIdTable(linkIds, 1);
+    		
+    		
+    		theModel.setLinkPeaks(linkPeaks);
+    		theView.getLinkFrame().updatePeakTable(linkPeaks, 1);
     	}
     }
     

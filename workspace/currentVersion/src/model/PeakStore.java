@@ -29,7 +29,8 @@ public class PeakStore {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public IPeakSet<IPeak> parseInputFile(File file){
+//	public Vector<IPeak> parseInputFile(File file){
+	public ArrayList<IPeak> parseInputFile(File file){
 		try {
 			System.out.println(file.getAbsolutePath());
         	ParseResult result = PeakMLParser.parse(new FileInputStream(file), true);
@@ -39,7 +40,10 @@ public class PeakStore {
 			getProbabilityAttributes();
 			vectorPeaks = peakset.getPeaks();
 			sortInit("mass", 0);
-			return peakset;
+			ArrayList<IPeak> alPeaks = new ArrayList<IPeak>();
+			for (IPeak peak : vectorPeaks)
+				alPeaks.add(peak);
+			return alPeaks;
 		}
 		catch (Exception e)
 		{

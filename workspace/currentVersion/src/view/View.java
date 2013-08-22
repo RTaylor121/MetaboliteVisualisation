@@ -1,6 +1,8 @@
 package view;
 
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Vector;
 
 import model.Model;
 import model.newPeak;
@@ -55,8 +57,12 @@ public class View {
 //		getLinkFrame().updatePeakTable(peakset);
 //	}
 	
-	public void displayPeakList(IPeakSet<IPeak> peakset){
-		getLinkFrame().updatePeakMainTable(peakset);
+//	public void displayPeakList(Vector<IPeak> peakset){
+//		getLinkFrame().updatePeakTable(peakset, 0);
+//	}
+	
+	public void displayPeakList(ArrayList<IPeak> peakset){
+		getLinkFrame().updatePeakTable(peakset, 0);
 	}
 	
 //	public newLinkingFrame getLinkFrame() {

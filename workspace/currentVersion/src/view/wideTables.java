@@ -3,6 +3,7 @@ package view;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.JMenuItem;
 import javax.swing.JTable;
@@ -14,15 +15,16 @@ import model.Ident;
 import peakml.IPeak;
 import peakml.IPeakSet;
 
+@SuppressWarnings("serial")
 public class wideTables extends javax.swing.JFrame {
 	
-	private PeakTableModel peakMainTM;
+	private PeakTableModel peakMainTM, peakLinksTM;
     private ListSelectionModel peakMainTableSelectionModel;
     private String[] peakColumnNames;
     private int[] currentPlotPeaks;
     private int[] currentLinkPeaks;
 	
-	private IdentificationTableModel idTM;
+	private IdentificationTableModel idTM,idLinksTM;
     private ListSelectionModel idTableSelectionModel;
     private String[] idColumnNames;
 	private int[] currentPathIdentifications;
@@ -32,6 +34,8 @@ public class wideTables extends javax.swing.JFrame {
 	private ArrayList<Integer> linkPeakRows;
 	private ArrayList<Integer> highlightedPathButtons;
 	private ArrayList<Color> highlightedButtonColours;
+	
+	int linkPeaksSplit, linkIdsSplit;
 
     public wideTables() {
         initComponents();
@@ -80,6 +84,9 @@ public class wideTables extends javax.swing.JFrame {
     	linkPeakRows = new ArrayList<Integer>();
     	highlightedPathButtons = new ArrayList<Integer>();
     	highlightedButtonColours = new ArrayList<Color>();
+    	
+    	linkPeaksSplit = 0;
+    	linkIdsSplit = 0;
     	
         idPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Identifications"));
 
@@ -134,9 +141,25 @@ public class wideTables extends javax.swing.JFrame {
 
         idTabbedPane.addTab("All", idMainScroll);
 
-        idLinksTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {}, idColumnNames
-        ));
+        idLinksTM = new IdentificationTableModel(new Object [][] {}, idColumnNames);
+    	setIdLinksTable(new JTable(idLinksTM){
+			public Component prepareRenderer(TableCellRenderer renderer, int row, int column)
+			{
+				Component c = super.prepareRenderer(renderer, row, column);
+
+				if (isRowSelected(row)){
+					c.setBackground(Color.GRAY);
+					c.setForeground(Color.WHITE);
+				} else if (linkIdsSplit > row){
+					c.setBackground(Color.CYAN);
+					c.setForeground(Color.BLACK);
+				} else {
+					c.setBackground(Color.ORANGE);
+					c.setForeground(Color.BLACK);
+				}
+				return c;
+    		}
+        });
         idLinksScroll.setViewportView(idLinksTable);
 
         idTabbedPane.addTab("Links", idLinksScroll);
@@ -248,9 +271,25 @@ public class wideTables extends javax.swing.JFrame {
 
         peakTabbedPane.addTab("All", peakMainScroll);
 
-        peakLinksTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {}, peakColumnNames
-        ));
+        peakLinksTM = new PeakTableModel(new Object [][] {}, idColumnNames);
+    	setPeakLinksTable(new JTable(peakLinksTM){
+			public Component prepareRenderer(TableCellRenderer renderer, int row, int column)
+			{
+				Component c = super.prepareRenderer(renderer, row, column);
+
+				if (isRowSelected(row)){
+					c.setBackground(Color.GRAY);
+					c.setForeground(Color.WHITE);
+				} else if (linkPeaksSplit > row){
+					c.setBackground(Color.ORANGE);
+					c.setForeground(Color.BLACK);
+				} else {
+					c.setBackground(Color.CYAN);
+					c.setForeground(Color.BLACK);
+				}
+				return c;
+    		}
+        });
         peakLinksScroll.setViewportView(peakLinksTable);
 
         peakTabbedPane.addTab("Links", peakLinksScroll);
@@ -379,46 +418,65 @@ public class wideTables extends javax.swing.JFrame {
 		this.updatePlotsButton = updatePlotsButton;
 	}
 
-	public void updatePeakMainTable(IPeakSet<IPeak> peakset){
-//      public void updatePeakTable(IPeakSet<newPeak> peakset){
+//	public void updatePeakTable(Vector<IPeak> peakset, int table ){
   		
+	public void updatePeakTable(ArrayList<IPeak> peakset, int table ){
   		IPeak current;
-//      	newPeak current;
-  		Object[][] tableData = new Object[peakset.size()][5];
-  		for(int i = 0; i < peakset.size(); i++){
-  			current = peakset.get(i);
-//  			tableData[i][0] = current.getId();
-  			tableData[i][0] = i;
-  			tableData[i][1] = current.getMass();
-  			tableData[i][2] = current.getIntensity();
-  			tableData[i][3] = current.getRetentionTime();
-  			try{
-  				tableData[i][4] = current.getAnnotation("probabilityIdentification").getValue();
-  			}
-  			catch(Exception e){
-  				tableData[i][4] = "n/a";
-  			}
+  		Object[][] tableData;
+  		if (peakset.size() < 1)
+  			tableData = new Object[0][0];
+  		else {
+  			tableData = new Object[peakset.size()][5];
+	  		for(int i = 0; i < peakset.size(); i++){
+	  			current = peakset.get(i);
+	  			tableData[i][0] = i + 1;
+	  			tableData[i][1] = current.getMass();
+	  			tableData[i][2] = current.getIntensity();
+	  			tableData[i][3] = current.getRetentionTime();
+	  			try{
+	  				tableData[i][4] = current.getAnnotation("probabilityIdentification").getValue();
+	  			}
+	  			catch(Exception e){
+	  				tableData[i][4] = "n/a";
+	  			}
+	  		}
   		}
-  		getPeakMainTable().setModel(new DefaultTableModel(tableData, peakColumnNames));
-  	}
+  		
+  		if (table == 0)
+  			getPeakMainTable().setModel(new DefaultTableModel(tableData, peakColumnNames));
+  		else if (table == 1)
+  			getPeakLinksTable().setModel(new DefaultTableModel(tableData, peakColumnNames));
+  		else
+  			getPeakPlotTable().setModel(new DefaultTableModel(tableData, peakColumnNames));
+	}
   	
-      public void updateIdMainTable(ArrayList<Ident> identifications){
+      public void updateIdTable(ArrayList<Ident> identifications, int table){
   		
   		Ident current;
-  		Object[][] tableData = new Object[identifications.size()][9];
-  		for(int i = 0; i < identifications.size(); i++){
-  			current = identifications.get(i);
-  			tableData[i][0] = current.getId();
-  			tableData[i][1] = current.getKegg();
-  			tableData[i][2] = current.getName();
-  			tableData[i][3] = current.getProbabilities()[0];
-  			tableData[i][4] = current.getProbabilities()[1];
-  			tableData[i][5] = current.getProbabilities()[2];
-  			tableData[i][6] = current.getProbabilities()[3];
-  			tableData[i][7] = current.getProbabilities()[4];
-  			tableData[i][8] = current.getCombinedProb();
+  		Object[][] tableData;
+  		if (identifications.isEmpty())
+  			tableData = new Object[0][0];
+  		else {
+  			tableData = new Object[identifications.size()][9];
+	  		for(int i = 0; i < identifications.size(); i++){
+	  			current = identifications.get(i);
+	  			tableData[i][0] = current.getId();
+	  			tableData[i][1] = current.getKegg();
+	  			tableData[i][2] = current.getName();
+	  			tableData[i][3] = current.getProbabilities()[0];
+	  			tableData[i][4] = current.getProbabilities()[1];
+	  			tableData[i][5] = current.getProbabilities()[2];
+	  			tableData[i][6] = current.getProbabilities()[3];
+	  			tableData[i][7] = current.getProbabilities()[4];
+	  			tableData[i][8] = current.getCombinedProb();
+	  		}
   		}
-  		getIdMainTable().setModel(new DefaultTableModel(tableData, idColumnNames));
+  		if (table == 0)
+  			getIdMainTable().setModel(new DefaultTableModel(tableData, idColumnNames));
+  		else if (table == 1)
+  			getIdLinksTable().setModel(new DefaultTableModel(tableData, idColumnNames));
+  		else
+  			getIdPathTable().setModel(new DefaultTableModel(tableData, idColumnNames));
   	}
 
     public PeakTableModel getPeakTM() {
@@ -616,36 +674,54 @@ public class wideTables extends javax.swing.JFrame {
 	public void setPeakSortButton(javax.swing.JButton peakSortButton) {
 		this.peakSortButton = peakSortButton;
 	}
+	
+	
 
-	public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(wideTables.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(wideTables.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(wideTables.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(wideTables.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
+	public int getLinkPeaksSplit() {
+		return linkPeaksSplit;
+	}
 
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new wideTables().setVisible(true);
-            }
-        });
-    }
+	public void setLinkPeaksSplit(int linkPeaksSplit) {
+		this.linkPeaksSplit = linkPeaksSplit;
+	}
+
+	public int getLinkIdsSplit() {
+		return linkIdsSplit;
+	}
+
+	public void setLinkIdsSplit(int linkIdsSplit) {
+		this.linkIdsSplit = linkIdsSplit;
+	}
+
+//	public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(wideTables.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(wideTables.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(wideTables.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(wideTables.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new wideTables().setVisible(true);
+//            }
+//        });
+//    }
     private javax.swing.JButton displayIdLinksButton;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JButton idClearButton;

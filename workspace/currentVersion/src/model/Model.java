@@ -2,6 +2,7 @@ package model;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import peakml.IPeak;
 import peakml.IPeakSet;
@@ -10,6 +11,9 @@ public class Model {
 		
 	static IdentificationStore idStore;
 	private static PeakStore peakStore;
+//	private static Vector<IPeak> linkPeaks;
+	private static ArrayList<IPeak> linkPeaks;
+	private static ArrayList<Ident> linkIds;
 	boolean pathLoaded, idsLoaded, peaksLoaded, linksGenerated;
 	
 	int[] selectedPeaks, selectedIds, linkedPeaks, linkedIds;
@@ -20,6 +24,9 @@ public class Model {
 		idStore = new IdentificationStore(this);
 		peakStore = new PeakStore(this);
 		pathLoaded = false;
+//		linkPeaks = new Vector<IPeak>();
+		linkPeaks = new ArrayList<IPeak>();
+		linkIds = new ArrayList<Ident>();
 	}
 	
 	public boolean isPeaksLoaded() {
@@ -45,7 +52,11 @@ public class Model {
 		Model.idStore = idStore;
 	}
 	
-	public IPeakSet<IPeak> loadPeaks(File file){
+//	public Vector<IPeak> loadPeaks(File file){
+//		return getPeakStore().parseInputFile(file);
+//	}
+	
+	public ArrayList<IPeak> loadPeaks(File file){
 		return getPeakStore().parseInputFile(file);
 	}
 
@@ -112,5 +123,41 @@ public class Model {
 	public void setLinkIdRows(ArrayList<Integer> linkIdRows) {
 		this.linkIdRows = linkIdRows;
 	}
+
+//	public Vector<IPeak> getLinkPeaks() {
+//		return linkPeaks;
+//	}
+//
+//	public void setLinkPeaks(Vector<IPeak> linkPeaks) {
+//		Model.linkPeaks = linkPeaks;
+//	}
+	
+	
+
+	public ArrayList<Ident> getLinkIds() {
+		return linkIds;
+	}
+
+	public static ArrayList<IPeak> getLinkPeaks() {
+		return linkPeaks;
+	}
+
+	public static void setLinkPeaks(ArrayList<IPeak> linkPeaks) {
+		Model.linkPeaks = linkPeaks;
+	}
+
+	public boolean isLinksGenerated() {
+		return linksGenerated;
+	}
+
+	public void setLinksGenerated(boolean linksGenerated) {
+		this.linksGenerated = linksGenerated;
+	}
+
+	public void setLinkIds(ArrayList<Ident> linkIds) {
+		Model.linkIds = linkIds;
+	}
+	
+	
 	
 }
