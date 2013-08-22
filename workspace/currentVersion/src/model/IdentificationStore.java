@@ -28,18 +28,25 @@ public class IdentificationStore {
 		String pivotString = null;
 		Ident temp = array.get(pivotIndex);
 		
-		if (field.equals("kegg")){
-			pivotDouble = Double.parseDouble(array.get(pivotIndex).getKegg().substring(1));
+		if (field.equalsIgnoreCase("kegg id")){
+			pivotString = array.get(pivotIndex).getKegg();
 		}
-		else if (field.equals("id")){
+		else if (field.equalsIgnoreCase("id"))
 			pivotDouble = Double.parseDouble(array.get(pivotIndex).getId());
-		}
-		else if (field.equals("name")){
+		else if (field.equalsIgnoreCase("name"))
 			pivotString = array.get(pivotIndex).getName();
-		}
-		else {
+		else if (field.equalsIgnoreCase("p1"))
 			pivotDouble = array.get(pivotIndex).getProbabilities()[0];
-		}
+		else if (field.equalsIgnoreCase("p2"))
+			pivotDouble = array.get(pivotIndex).getProbabilities()[1];
+		else if (field.equalsIgnoreCase("p3"))
+			pivotDouble = array.get(pivotIndex).getProbabilities()[2];
+		else if (field.equalsIgnoreCase("p4"))
+			pivotDouble = array.get(pivotIndex).getProbabilities()[3];
+		else if (field.equalsIgnoreCase("p5"))
+			pivotDouble = array.get(pivotIndex).getProbabilities()[4];
+		else if (field.equalsIgnoreCase("pcombined"))
+			pivotDouble = array.get(pivotIndex).getCombinedProb();
 		
 		array.set(pivotIndex, array.get(right));
 		array.set(right, temp);
@@ -48,22 +55,28 @@ public class IdentificationStore {
 		double comparisonDouble = 0;
 		String comparisonString = null;
 		for (int i = left; i < right; i++){
-			if (field.equals("kegg")){
-				comparisonDouble = Double.parseDouble(array.get(i).getKegg().substring(1));
-			}
-			else if (field.equals("id")) {
+			if (field.equalsIgnoreCase("kegg id"))
+				comparisonString = array.get(i).getKegg();
+			else if (field.equalsIgnoreCase("id"))
 				comparisonDouble = Double.parseDouble(array.get(i).getId());
-			}
-			else if (field.equals("name")) {
+			else if (field.equalsIgnoreCase("name"))
 				comparisonString = array.get(i).getName();
-			}
-			else {
+			else if (field.equalsIgnoreCase("p1"))
 				comparisonDouble = array.get(i).getProbabilities()[0];
-			}
+			else if (field.equalsIgnoreCase("p2"))
+				comparisonDouble = array.get(i).getProbabilities()[1];
+			else if (field.equalsIgnoreCase("p3"))
+				comparisonDouble = array.get(i).getProbabilities()[2];
+			else if (field.equalsIgnoreCase("p4"))
+				comparisonDouble = array.get(i).getProbabilities()[3];
+			else if (field.equalsIgnoreCase("p5"))
+				comparisonDouble = array.get(i).getProbabilities()[4];
+			else if (field.equalsIgnoreCase("pcombined"))
+				comparisonDouble = array.get(i).getCombinedProb();
 			int stringComparison = 0;
 			boolean comparison = false;
 			if (order == 1){
-				if (field.equals("name")){
+				if (field.equalsIgnoreCase("name") || field.equalsIgnoreCase("kegg id")){
 					stringComparison = comparisonString.compareToIgnoreCase(pivotString);
 				}
 				else {
@@ -71,14 +84,14 @@ public class IdentificationStore {
 				}
 			}
 			else {
-				if (field.equals("name")){
+				if (field.equalsIgnoreCase("name") || field.equalsIgnoreCase("kegg id")){
 					stringComparison = pivotString.compareToIgnoreCase(comparisonString);
 				}
 				else {
 					comparison = comparisonDouble < pivotDouble;
 				}
 			}
-			if (field.equals("name")){
+			if (field.equalsIgnoreCase("name") || field.equalsIgnoreCase("kegg id")){
 				if (stringComparison < 0){
 					temp = array.get(i);
 					array.set(i, array.get(storeIndex));

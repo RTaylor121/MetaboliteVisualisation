@@ -45,6 +45,7 @@ public class Controller {
         theView.addDisplayIdLinksListener(new DisplayIdLinksListener());
         theView.addDisplayPeakLinksListener(new DisplayPeakLinksListener());
         theView.addUpdatePathIDsListener(new UpdatePathIDsListener());
+        theView.addSortIdListener(new sortIdListener());
     }
 
     class LoadPeaksListener implements ActionListener {
@@ -264,6 +265,16 @@ public class Controller {
 	    					theModel.getIdStore().getNewIds().get(i).getButtonIndex()).setBackground(Color.CYAN);
     			}
     		}
+    	}
+    }
+    
+    class sortIdListener implements ActionListener{
+    	public void actionPerformed(ActionEvent e) {
+    		System.out.println(theView.getLinkFrame().getSortString());
+    		theModel.getIdStore().sortInit(
+    				theView.getLinkFrame().getSortString(), 0);
+    		theView.getLinkFrame().updateIdTable(
+    				theModel.getIdStore().getNewIds(), 0);
     	}
     }
     

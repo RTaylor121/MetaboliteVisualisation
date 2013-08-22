@@ -2,9 +2,12 @@ package view;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import javax.swing.JComboBox;
 import javax.swing.JMenuItem;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -35,6 +38,9 @@ public class wideTables extends javax.swing.JFrame {
 	private ArrayList<Integer> highlightedPathButtons;
 	private ArrayList<Color> highlightedButtonColours;
 	
+	private String idSortString;
+	private int idSortOrder;
+	
 	int linkPeaksSplit, linkIdsSplit;
 
     public wideTables() {
@@ -54,7 +60,8 @@ public class wideTables extends javax.swing.JFrame {
         idPathTable = new javax.swing.JTable();
         idSortButton = new javax.swing.JButton();
         idClearButton = new javax.swing.JButton();
-        idSortSpinner = new javax.swing.JSpinner();
+//        idSortSpinner = new javax.swing.JSpinner();
+        idComboBox = new javax.swing.JComboBox();
         updatePathButton = new javax.swing.JButton();
         displayIdLinksButton = new javax.swing.JButton();
         peakPanel = new javax.swing.JPanel();
@@ -87,6 +94,8 @@ public class wideTables extends javax.swing.JFrame {
     	
     	linkPeaksSplit = 0;
     	linkIdsSplit = 0;
+    	idSortString = "id";
+    	idSortOrder = 0;
     	
         idPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Identifications"));
 
@@ -170,6 +179,16 @@ public class wideTables extends javax.swing.JFrame {
         idPathScroll.setViewportView(idPathTable);
 
         idTabbedPane.addTab("On Path", idPathScroll);
+        
+        JComboBox idComboBox = new JComboBox(idColumnNames);
+        idComboBox.addItemListener(new ItemListener(){
+
+            public void itemStateChanged(ItemEvent e) {
+                String s = (String)e.getItem();
+//                System.out.println(s);
+                idSortString = s;
+            }
+        });
 
         idSortButton.setText("Sort By");
         idSortButton.setPreferredSize(new java.awt.Dimension(130, 29));
@@ -197,7 +216,8 @@ public class wideTables extends javax.swing.JFrame {
                     .add(idClearButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(idSortButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(idSortSpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 96, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+//                .add(idSortSpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 96, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(idComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 96, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         idPanelLayout.setVerticalGroup(
@@ -213,7 +233,8 @@ public class wideTables extends javax.swing.JFrame {
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(idPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(idSortButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(idSortSpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+//                            .add(idSortSpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(idComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(idClearButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(16, 16, 16))
@@ -640,8 +661,14 @@ public class wideTables extends javax.swing.JFrame {
 	public void setPeakLinksButton(javax.swing.JButton peakLinksButton) {
 		this.peakLinksButton = peakLinksButton;
 	}
-	
-	
+
+	public javax.swing.JComboBox getIdComboBox() {
+		return idComboBox;
+	}
+
+	public void setIdComboBox(javax.swing.JComboBox idComboBox) {
+		this.idComboBox = idComboBox;
+	}
 
 	public javax.swing.JButton getIdClearButton() {
 		return idClearButton;
@@ -675,7 +702,13 @@ public class wideTables extends javax.swing.JFrame {
 		this.peakSortButton = peakSortButton;
 	}
 	
-	
+	public String getSortString() {
+		return idSortString;
+	}
+
+	public void setSortString(String sortString) {
+		this.idSortString = sortString;
+	}
 
 	public int getLinkPeaksSplit() {
 		return linkPeaksSplit;
@@ -693,48 +726,20 @@ public class wideTables extends javax.swing.JFrame {
 		this.linkIdsSplit = linkIdsSplit;
 	}
 
-//	public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(wideTables.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(wideTables.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(wideTables.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(wideTables.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new wideTables().setVisible(true);
-//            }
-//        });
-//    }
-    private javax.swing.JButton displayIdLinksButton;
+	private javax.swing.JButton displayIdLinksButton;
+	private javax.swing.JButton idClearButton;
+	private javax.swing.JScrollPane idLinksScroll;
+	private javax.swing.JTable idLinksTable;
+	private javax.swing.JScrollPane idMainScroll;
+	private javax.swing.JTable idMainTable;
+	private javax.swing.JPanel idPanel;
+	private javax.swing.JScrollPane idPathScroll;
+	private javax.swing.JTable idPathTable;
+	private javax.swing.JButton idSortButton;
+//	private javax.swing.JSpinner idSortSpinner;
+	private javax.swing.JComboBox idComboBox;
+	private javax.swing.JTabbedPane idTabbedPane;
     private javax.swing.JMenu fileMenu;
-    private javax.swing.JButton idClearButton;
-    private javax.swing.JScrollPane idLinksScroll;
-    private javax.swing.JTable idLinksTable;
-    private javax.swing.JScrollPane idMainScroll;
-    private javax.swing.JTable idMainTable;
-    private javax.swing.JPanel idPanel;
-    private javax.swing.JScrollPane idPathScroll;
-    private javax.swing.JTable idPathTable;
-    private javax.swing.JButton idSortButton;
-    private javax.swing.JSpinner idSortSpinner;
-    private javax.swing.JTabbedPane idTabbedPane;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JButton peakClearButton;
     private javax.swing.JButton peakLinksButton;

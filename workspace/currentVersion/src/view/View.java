@@ -53,6 +53,10 @@ public class View {
 		getLinkFrame().getJMenuBar().getMenu(0).getItem(2).addActionListener(pathLoadListener);
 	}
 	
+	public void addSortIdListener(ActionListener idSortListener){
+		getLinkFrame().getIdSortButton().addActionListener(idSortListener);
+	}
+	
 //	public void displayPeakList(IPeakSet<newPeak> peakset){
 //		getLinkFrame().updatePeakTable(peakset);
 //	}
