@@ -127,7 +127,7 @@ public class Controller {
 				if (theModel.isIdsLoaded()){
 					System.out.println("going into parsing");
 					
-					theModel.getIdStore().sortInit("kegg", 0);
+					theModel.getIdStore().sortInit("kegg id", 1);
 					parseKGML(pathID, pathImg.getWidth(), pathImg.getHeight());
 					theModel.getIdStore().sortInit(theModel.getIdStore().getSortField(), theModel.getIdStore().getSortOrder());
 					System.out.println("out of parsing");
@@ -253,11 +253,9 @@ public class Controller {
     		theView.getLinkFrame().getHighlightedPathButtons().clear();
     		theView.getLinkFrame().getHighlightedButtonColours().clear();
     		
-    		theModel.getIdStore().sortInit(theModel.getIdStore().getSortField(), theModel.getIdStore().getSortOrder());
-    		
     		for (int i : sel){
     			System.out.println("kegg: " + theModel.getIdStore().getNewIds().get(i).getKegg());
-    			if (theModel.getIdStore().getIdentifications().get(i).getButtonIndex() != -1) {
+    			if (theModel.getIdStore().getNewIds().get(i).getButtonIndex() != -1) {
     				theView.getLinkFrame().getHighlightedPathButtons().add(theModel.getIdStore().getNewIds().get(i).getButtonIndex());
 	    			theView.getLinkFrame().getHighlightedButtonColours().add(
 	    					theView.getPathFrame().getPathButtons().get(
