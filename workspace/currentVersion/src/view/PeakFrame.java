@@ -34,17 +34,17 @@ public class PeakFrame extends JFrame{
     	relatedPlot = new Plot2DPanel();
 
         chromPlot.setAxisLabels("RT", "Intensity");
-		chromPlot.addLegend("EAST");
+//		chromPlot.addLegend("EAST");
 		chromPlot.removePlotToolBar();
 		peakTabbedPane.addTab("Chromatogram",chromPlot);
 		
 		specPlot.setAxisLabels("m/z", "Intensity");
-		specPlot.addLegend("EAST");
+//		specPlot.addLegend("EAST");
 		specPlot.removePlotToolBar();
 		peakTabbedPane.addTab("Mass Spectrum", specPlot);
 		
 		relatedPlot.setAxisLabels("RT", "Intensity");
-		relatedPlot.addLegend("EAST");
+//		relatedPlot.addLegend("EAST");
 		relatedPlot.removePlotToolBar();
 		peakTabbedPane.addTab("Related Peaks", relatedPlot);
 		

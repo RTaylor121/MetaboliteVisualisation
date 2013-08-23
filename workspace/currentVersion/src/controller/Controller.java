@@ -14,6 +14,7 @@ import java.util.Vector;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
@@ -47,6 +48,7 @@ public class Controller {
         theView.addUpdatePathIDsListener(new UpdatePathIDsListener());
         theView.addSortIdListener(new sortIdListener());
         theView.addSortPeakListener(new sortPeakListener());
+        theView.addDisplayIdPlotsListener(new idPlotsListener());
     }
 
     class LoadPeaksListener implements ActionListener {
@@ -106,7 +108,17 @@ public class Controller {
                 theModel.loadIdentifications(file);
     		}
     		if (theModel.isPathLoaded()){
-    			parseKGML(pathID, theView.getPathFrame().getImageSize().getWidth(), theView.getPathFrame().getImageSize().getHeight());
+    			Object[] options = {"P1", "P2", "P3", "P4", "P5", "PCombined"};
+
+	    		
+	    		String s = (String)JOptionPane.showInputDialog(
+	                    theView.getLinkFrame(),
+	                    "Which set of probabilities would you like to use?",
+	                    "Customized Dialog",
+	                    JOptionPane.PLAIN_MESSAGE,
+	                    null,
+	                    options, 0);
+    			parseKGML(pathID, theView.getPathFrame().getImageSize().getWidth(), theView.getPathFrame().getImageSize().getHeight(), s);
     			theView.getPathFrame().setVisible(true);
                 theView.getPathFrame().pack();
     		}
@@ -128,7 +140,18 @@ public class Controller {
 					System.out.println("going into parsing");
 					
 					theModel.getIdStore().sortInit("kegg id", 1);
-					parseKGML(pathID, pathImg.getWidth(), pathImg.getHeight());
+					Object[] options = {"P1", "P2", "P3", "P4", "P5", "PCombined"};
+
+		    		
+		    		String s = (String)JOptionPane.showInputDialog(
+		                    theView.getLinkFrame(),
+		                    "Which set of probabilities would you like to use?",
+		                    "Customized Dialog",
+		                    JOptionPane.PLAIN_MESSAGE,
+		                    null,
+		                    options, 0);
+		    		
+					parseKGML(pathID, pathImg.getWidth(), pathImg.getHeight(), s);
 					theModel.getIdStore().sortInit(theModel.getIdStore().getSortField(), theModel.getIdStore().getSortOrder());
 					System.out.println("out of parsing");
 				}
@@ -287,6 +310,39 @@ public class Controller {
     	}
     }
     
+    class idPlotsListener implements ActionListener{
+    	public void actionPerformed(ActionEvent e) {
+    		theView.getPeakFrame().clearPlots();
+    		double barPlotX[] = new double[1];
+    		double barPlotY[] = new double[1];
+    		IPeak peak;
+    		if (theModel.getLinkPeaks().size() > 0){
+	    		for (int i = theView.getLinkFrame().getLinkPeaksSplit(); i < theModel.getLinkPeaks().size(); i++){
+	    			peak = theModel.getLinkPeaks().get(i);
+	    			theView.getPeakFrame().recursive(peak, 'c');
+	    			barPlotX[0] = peak.getMass();
+	    			barPlotY[0] = peak.getIntensity();
+	    			theView.getPeakFrame().getSpecPlot().addBarPlot("test", barPlotX, barPlotY);
+	    			try{
+	        			String anno = (peak.getAnnotation("relation.id")).getValue();
+	        			if (!anno.equals("-1")){
+	        				for (IPeak p: theModel.getPeakStore().getPeakset()){
+	        					if (p.getAnnotation("relation.id").getValue().equals(anno)){
+	        						theView.getPeakFrame().recursive(p, 'r');
+	        					}
+	        				}
+	        			}
+	    			} catch (NullPointerException npe){
+	    				System.out.println(npe);
+	    			}
+	    			theView.getPeakFrame().setVisible(true);
+	    			theView.getPeakFrame().pack();
+	    		}
+    		}
+    	}
+    }
+//    }
+    
     public void addPathPopupMenus(){
     	MetaboliteMenu mm;
     	for (Ident pI: theModel.getIdStore().getNewIds()){
@@ -303,15 +359,28 @@ public class Controller {
     	}
     }
     
-    public static void parseKGML(String pID, double imgW, double imgH){
+    public static void parseKGML(String pID, double imgW, double imgH, String prob){
 		
 		try {
 			 
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			SAXParser saxParser = factory.newSAXParser();
-			
+			int probInt;
+			if (prob.equalsIgnoreCase("P1"))
+				probInt = 0;
+			else if (prob.equalsIgnoreCase("P2"))
+				probInt = 1;
+			else if (prob.equalsIgnoreCase("P3"))
+				probInt = 2;
+			else if (prob.equalsIgnoreCase("P4"))
+				probInt = 3;
+			else if (prob.equalsIgnoreCase("P5"))
+				probInt = 4;
+			else
+				probInt = 5;
+			System.out.println(probInt);
 			DefaultHandler handler = new kgmlHandler(theView.getPathFrame().getPathPanel().getWidth(), theView.getPathFrame().getPathPanel().getHeight(),
-					imgW, imgH, theModel, theView);
+					imgW, imgH, theModel, theView, probInt);
 			
 			saxParser.parse(new InputSource(new URL("http://rest.kegg.jp/get/" + pID + "/kgml").openStream()), handler);
 			

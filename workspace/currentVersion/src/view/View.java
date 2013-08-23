@@ -61,6 +61,9 @@ public class View {
 		getLinkFrame().getPeakSortButton().addActionListener(peakSortListener);
 	}
 	
+	public void addDisplayIdPlotsListener(ActionListener theListener){
+		getLinkFrame().getIdClearButton().addActionListener(theListener);
+	}
 //	public void displayPeakList(IPeakSet<newPeak> peakset){
 //		getLinkFrame().updatePeakTable(peakset);
 //	}

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -45,7 +46,10 @@ public class PathwayFrame extends JFrame{
 	    prevButton = -1;
 		
 		pathPanel = new PathwayPanel();
-		pathPanel.setPreferredSize(new Dimension(900, 650));
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		double width = screenSize.getWidth();
+		double height = screenSize.getHeight();
+		pathPanel.setPreferredSize(new Dimension((int)Math.round(width*0.75), (int)Math.round(height*0.75)));
 	    pathPanel.setLayout(null);
 	    pathPanel.setOpaque(false);
 	    

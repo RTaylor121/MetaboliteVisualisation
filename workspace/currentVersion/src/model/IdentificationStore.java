@@ -157,7 +157,7 @@ public class IdentificationStore {
 				}
 				if (probs[0] > 0)
 					returnVals.add(new Ident(
-							splitLine[0], splitLine[2], splitLine[1], probs, Double.parseDouble(splitLine[3]), -1));
+							splitLine[0], splitLine[2], splitLine[1], probs, Double.parseDouble(splitLine[splitLine.length - 1]), -1));
 			}
  
 			br.close();

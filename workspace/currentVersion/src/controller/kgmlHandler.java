@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 
 import model.Ident;
 import model.Model;
@@ -24,10 +25,11 @@ public class kgmlHandler extends DefaultHandler {
 	String currentKegg, sub, pro;
 	model.Model theModel;
 	static view.View theView;
+	int probInt;
 	
 	// change to send a Dimension object
 	public kgmlHandler(int panelWidth, int panelHeight, double imgWidth, double imgHeight,
-			Model theModel, View theView) {
+			Model theModel, View theView, int probInt) {
 		super();
 		this.xScaleFactor = (double)panelWidth/(double)imgWidth;
 		this.yScaleFactor = (double)panelHeight/(double)imgHeight;
@@ -39,6 +41,7 @@ public class kgmlHandler extends DefaultHandler {
 		reaction = false;
 		substrate = false;
 		product = false;
+		this.probInt = probInt;
 	}
 
 	public model.Model getModel() {
@@ -224,7 +227,18 @@ public class kgmlHandler extends DefaultHandler {
 		    	if ((index = theModel.getIdStore().findIdent(
 		    			theModel.getIdStore().getNewIds(), keggNo, 0, theModel.getIdStore().getNewIds().size() - 1)) != -1){
 		    		Ident pI = theModel.getIdStore().getNewIds().get(index);
-		    		prob = pI.getCombinedProb();
+		    		
+
+//		    		int n = JOptionPane optionPane = new JOptionPane(
+//		    			    "Which set of probabilities would you like to use?",
+//		    			    JOptionPane.QUESTION_MESSAGE,
+//		    			    JOptionPane.);
+		    		if (probInt < 5)
+		    			prob = pI.getProbabilities()[probInt];
+		    		else{
+		    			System.out.println("comb prob");
+		    			prob = pI.getCombinedProb();
+		    		}
 		    		theView.getPathFrame().buttonGraphics(attributes, theButton, xScaleFactor, yScaleFactor, prob);
 		    		if (prob > 0){
 		    			pI.setButtonIndex(theView.getPathFrame().getPathButtons().size());

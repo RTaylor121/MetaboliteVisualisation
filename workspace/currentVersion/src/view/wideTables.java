@@ -59,7 +59,7 @@ public class wideTables extends javax.swing.JFrame {
         idPathScroll = new javax.swing.JScrollPane();
         idPathTable = new javax.swing.JTable();
         idSortButton = new javax.swing.JButton();
-        idClearButton = new javax.swing.JButton();
+        idPlotsButton = new javax.swing.JButton();
         idComboBox = new javax.swing.JComboBox();
         peakComboBox = new javax.swing.JComboBox();
         updatePathButton = new javax.swing.JButton();
@@ -127,7 +127,7 @@ public class wideTables extends javax.swing.JFrame {
 				} else {
 					for (int i : currentPathIdentifications){
 						if (row == i){
-							c.setBackground(Color.CYAN);
+							c.setBackground(Color.GREEN);
 							c.setForeground(Color.BLACK);
 							return c;
 						}
@@ -194,8 +194,8 @@ public class wideTables extends javax.swing.JFrame {
         idSortButton.setText("Sort By");
         idSortButton.setPreferredSize(new java.awt.Dimension(130, 29));
 
-        idClearButton.setText("Clear");
-        idClearButton.setPreferredSize(new java.awt.Dimension(130, 29));
+        idPlotsButton.setText("Plot Linked Peaks");
+        idPlotsButton.setPreferredSize(new java.awt.Dimension(130, 29));
 
         updatePathButton.setText("Show On Path");
         updatePathButton.setPreferredSize(new java.awt.Dimension(130, 29));
@@ -214,7 +214,7 @@ public class wideTables extends javax.swing.JFrame {
                 .add(idPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
                     .add(org.jdesktop.layout.GroupLayout.LEADING, updatePathButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(org.jdesktop.layout.GroupLayout.LEADING, displayIdLinksButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(idClearButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(idPlotsButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(idSortButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(idComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 96, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -235,7 +235,7 @@ public class wideTables extends javax.swing.JFrame {
                             .add(idSortButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                             .add(idComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(idClearButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(idPlotsButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(16, 16, 16))
                     .add(idTabbedPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
@@ -264,7 +264,7 @@ public class wideTables extends javax.swing.JFrame {
 				} else {
 					for (int i : currentPlotPeaks){
 						if (row == i){
-							c.setBackground(Color.ORANGE);
+							c.setBackground(Color.GREEN);
 							c.setForeground(Color.BLACK);
 							return c;
 						}
@@ -334,6 +334,7 @@ public class wideTables extends javax.swing.JFrame {
 
         peakClearButton.setText("Clear");
         peakClearButton.setPreferredSize(new java.awt.Dimension(130, 29));
+        peakClearButton.setEnabled(false);
 
         updatePlotsButton.setText("Show On Plots");
         updatePlotsButton.setPreferredSize(new java.awt.Dimension(130, 29));
@@ -668,11 +669,11 @@ public class wideTables extends javax.swing.JFrame {
 	}
 
 	public javax.swing.JButton getIdClearButton() {
-		return idClearButton;
+		return idPlotsButton;
 	}
 
 	public void setIdClearButton(javax.swing.JButton idClearButton) {
-		this.idClearButton = idClearButton;
+		this.idPlotsButton = idClearButton;
 	}
 
 	public javax.swing.JButton getIdSortButton() {
@@ -758,7 +759,7 @@ public class wideTables extends javax.swing.JFrame {
 
 
 	private javax.swing.JButton displayIdLinksButton;
-	private javax.swing.JButton idClearButton;
+	private javax.swing.JButton idPlotsButton;
 	private javax.swing.JScrollPane idLinksScroll;
 	private javax.swing.JTable idLinksTable;
 	private javax.swing.JScrollPane idMainScroll;
